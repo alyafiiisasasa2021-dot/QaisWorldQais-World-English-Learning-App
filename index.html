@@ -3,105 +3,121 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>عالم قيس | Qais World</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>عالم قيس التعليمي</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f1f7ff;color:#17345c}
-header{background:linear-gradient(135deg,#1769ff,#6847e8);color:white;text-align:center;padding:28px 15px;border-radius:0 0 28px 28px}
-header h1{margin:8px 0;font-size:30px}
-header p{margin:8px 0}
-main{max-width:650px;margin:auto;padding:18px}
-.welcome{background:white;border-radius:20px;padding:18px;text-align:center;box-shadow:0 4px 15px #17345c12}
-.mascot{font-size:65px}
-h2{font-size:21px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
-.lesson{border:0;border-radius:18px;padding:18px 8px;min-height:125px;font-size:17px;font-weight:bold;color:#17345c;background:white;box-shadow:0 4px 12px #17345c12}
-.lesson span{display:block;font-size:35px;margin-bottom:10px}
-button{cursor:pointer}
-.primary{background:#1769ff;color:white;border:0;border-radius:14px;padding:13px 20px;font-size:17px;margin-top:12px}
-#activity{background:white;padding:18px;border-radius:20px;margin-top:18px;text-align:center;display:none}
-#answer{font-size:20px;margin:15px 0}
-footer{text-align:center;padding:25px;color:#64748b;font-size:13px}
+body{margin:0;font-family:Arial,sans-serif;background:#f0f6ff;color:#17345c}
+header{background:linear-gradient(135deg,#1769ff,#7545df);color:white;text-align:center;padding:25px 12px;border-radius:0 0 25px 25px}
+header h1{margin:8px;font-size:30px}
+main{max-width:650px;margin:auto;padding:16px}
+.card{background:white;padding:18px;border-radius:20px;margin:14px 0;box-shadow:0 4px 15px #17345c12}
+.mascot{font-size:58px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{font-size:16px;cursor:pointer;border:0;border-radius:15px;padding:14px;background:#e5efff;color:#17345c}
+button:active{transform:scale(.98)}
+.menu{min-height:110px;font-weight:bold}
+.menu span{display:block;font-size:32px;margin-bottom:8px}
+.primary{background:#1769ff;color:white;margin:5px}
+#content{display:none}
+#choices{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+#choices button{min-width:90px}
+video{width:100%;border-radius:12px;background:#111}
+footer{text-align:center;padding:22px;color:#65758b}
 </style>
 </head>
 <body>
 <header>
-<div style="font-size:42px">🌍</div>
+<div style="font-size:38px">🌍</div>
 <h1>عالم قيس</h1>
-<p>Qais World · Let's Go 1</p>
-<p>نتعلم الإنجليزية باللعب والمرح! ⭐</p>
+<p>Qais World · تعلم الإنجليزية بالمرح ⭐</p>
+<p>Let's Go 1</p>
 </header>
 <main>
-<section class="welcome">
+<section class="card" style="text-align:center">
 <div class="mascot">🤖</div>
 <h2>أهلًا يا بطل!</h2>
-<p>هل أنت مستعد لتعلم الإنجليزية؟</p>
-<button class="primary" onclick="startLesson()">ابدأ التعلم 🚀</button>
+<p>هيا نتعلم الإنجليزية معًا!</p>
+<button class="primary" onclick="openSection('lessons')">ابدأ التعلم 🚀</button>
 </section>
-<h2>🎮 اختر مغامرتك</h2>
+<h2>اختر نشاطك 🎯</h2>
 <div class="grid">
-<button class="lesson" onclick="startLesson()"><span>📚</span>الدروس</button>
-<button class="lesson" onclick="playGame()"><span>🎯</span>لعبة الكلمات</button>
-<button class="lesson" onclick="showVideos()"><span>🎬</span>الفيديوهات</button>
-<button class="lesson" onclick="speakWord()"><span>🔊</span>استمع وتعلّم</button>
+<button class="menu" onclick="openSection('lessons')"><span>📚</span>الدروس</button>
+<button class="menu" onclick="openSection('game')"><span>🎮</span>لعبة الكلمات</button>
+<button class="menu" onclick="openSection('videos')"><span>🎬</span>الفيديوهات</button>
+<button class="menu" onclick="openSection('listen')"><span>🔊</span>استمع وتعلّم</button>
 </div>
-<section id="activity">
-<h2 id="question">Let's learn!</h2>
-<div id="answer"></div>
-<div id="choices"></div>
-<button class="primary" onclick="nextQuestion()">السؤال التالي ➜</button>
+<section id="content" class="card">
+<h2 id="title"></h2>
+<div id="body"></div>
+<button class="primary" onclick="closeSection()">العودة للقائمة ↩</button>
 </section>
 </main>
-<footer>صُنع بحب ❤️ لأبطال الإنجليزية · Qais World</footer>
+<footer>عالم قيس التعليمي ❤️</footer>
 <script>
 const words=[
+{en:"Sun",ar:"شمس",emoji:"☀️"},
 {en:"Apple",ar:"تفاحة",emoji:"🍎"},
 {en:"Cat",ar:"قطة",emoji:"🐱"},
 {en:"Book",ar:"كتاب",emoji:"📘"},
-{en:"Sun",ar:"شمس",emoji:"☀️"},
-{en:"Dog",ar:"كلب",emoji:"🐶"}
+{en:"Dog",ar:"كلب",emoji:"🐶"},
+{en:"Hello",ar:"مرحبًا",emoji:"👋"}
 ];
-let index=0;
-function startLesson(){
-document.getElementById("activity").style.display="block";
-index=0;showQuestion();
-document.getElementById("activity").scrollIntoView({behavior:"smooth"});
-}
-function playGame(){startLesson();}
-function showQuestion(){
-let w=words[index%words.length];
-document.getElementById("question").textContent="ما معنى "+w.en+"؟";
-document.getElementById("answer").textContent=w.emoji+" اختر الإجابة الصحيحة";
-let choices=[w.ar,words[(index+1)%words.length].ar,words[(index+2)%words.length].ar];
-choices.sort(()=>Math.random()-0.5);
-document.getElementById("choices").innerHTML="";
-choices.forEach(c=>{
-let b=document.createElement("button");
-b.className="primary";b.style.margin="5px";b.textContent=c;
-b.onclick=()=>{document.getElementById("answer").textContent=c===w.ar?"أحسنت! ⭐ إجابة صحيحة":"حاول مرة أخرى 💪";};
-document.getElementById("choices").appendChild(b);
+let current=0,score=0;
+function openSection(section){
+const panel=document.getElementById("content");
+const title=document.getElementById("title");
+const body=document.getElementById("body");
+panel.style.display="block";
+if(section==="lessons"){
+title.textContent="📚 الدروس";
+body.innerHTML="<p>اختر كلمة لتتعلم معناها ونطقها.</p><div class='grid' id='lessonWords'></div>";
+words.forEach((w,i)=>{
+const b=document.createElement("button");
+b.textContent=w.emoji+" "+w.en;
+b.onclick=()=>{current=i;openSection("listen")};
+document.getElementById("lessonWords").appendChild(b);
 });
 }
-function nextQuestion(){index++;showQuestion();}
-function speakWord(){
-let w=words[index%words.length];
-document.getElementById("activity").style.display="block";
-document.getElementById("question").textContent=w.emoji+" "+w.en;
-document.getElementById("answer").textContent="معناها: "+w.ar;
+if(section==="game"){current=0;score=0;gameQuestion()}
+if(section==="listen"){
+const w=words[current%words.length];
+title.textContent="🔊 استمع وتعلّم";
+body.innerHTML="<div style='text-align:center;font-size:45px'>"+w.emoji+"</div><h2 style='text-align:center;direction:ltr'>"+w.en+"</h2><p style='text-align:center'>المعنى: "+w.ar+"</p><div style='text-align:center'><button class='primary' id='say'>🔊 استمع للنطق</button><button class='primary' id='next'>الكلمة التالية ➜</button></div>";
+document.getElementById("say").onclick=()=>speak(w.en);
+document.getElementById("next").onclick=()=>{current=(current+1)%words.length;openSection("listen")};
+}
+if(section==="videos"){
+title.textContent="🎬 الفيديوهات التعليمية";
+body.innerHTML="<p>شاهد الفيديو التجريبي التالي. إذا لم يعمل داخل الصفحة، افتحه من YouTube أو استخدم فيديو مناسبًا من جهازك.</p><iframe width='100%' height='220' style='border:0;border-radius:12px' src='https://www.youtube-nocookie.com/embed/2t1NMRse6aI' title='English learning video' allowfullscreen></iframe><p>سنضيف قائمة منظمة لفيديوهات كل درس في المرحلة التالية.</p>";
+}
+panel.scrollIntoView({behavior:"smooth"});
+}
+function gameQuestion(){
+const w=words[current%words.length];
+document.getElementById("title").textContent="🎮 لعبة الكلمات";
+const wrong1=words[(current+1)%words.length].ar;
+const wrong2=words[(current+2)%words.length].ar;
+const opts=[w.ar,wrong1,wrong2].sort(()=>Math.random()-.5);
+document.getElementById("body").innerHTML="<p>النقاط: "+score+" ⭐</p><h3 style='text-align:center;direction:ltr'>ما معنى "+w.en+"؟ "+w.emoji+"</h3><div id='choices'></div><p id='feedback' style='text-align:center'></p><div style='text-align:center'><button class='primary' id='nextQ'>السؤال التالي ➜</button></div>";
+opts.forEach(opt=>{
+const b=document.createElement("button");b.textContent=opt;
+b.onclick=()=>{
+document.getElementById("feedback").textContent=opt===w.ar?"أحسنت! إجابة صحيحة ⭐":"حاول مرة أخرى 💪";
+if(opt===w.ar){score++;document.getElementById("body").querySelector("p").textContent="النقاط: "+score+" ⭐"}
+};
+document.getElementById("choices").appendChild(b);
+});
+document.getElementById("nextQ").onclick=()=>{current=(current+1)%words.length;gameQuestion()};
+}
+function speak(text){
 if("speechSynthesis" in window){
-let u=new SpeechSynthesisUtterance(w.en);
-u.lang="en-US";speechSynthesis.speak(u);
-}else{document.getElementById("answer").textContent+=" · الصوت غير مدعوم في هذا المتصفح";}
-document.getElementById("activity").scrollIntoView({behavior:"smooth"});
+speechSynthesis.cancel();
+const u=new SpeechSynthesisUtterance(text);
+u.lang="en-US";u.rate=.8;speechSynthesis.speak(u);
+}else alert("ميزة النطق غير متاحة في هذا المتصفح.");
 }
-function showVideos(){
-document.getElementById("activity").style.display="block";
-document.getElementById("question").textContent="🎬 ركن الفيديوهات";
-document.getElementById("answer").textContent="سنضيف فيديوهات تعليمية مناسبة هنا في المرحلة القادمة.";
-document.getElementById("choices").innerHTML="";
-document.getElementById("activity").scrollIntoView({behavior:"smooth"});
-}
+function closeSection(){document.getElementById("content").style.display="none";window.scrollTo({top:0,behavior:"smooth"})}
 </script>
 </body>
 </html>
